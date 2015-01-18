@@ -1,0 +1,112 @@
+<head>
+    <title>Computershiki</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.1/simplex/bootstrap.min.css">
+
+    <style>
+        body { padding-top: 45px; }
+        .modal { z-index: 2000; }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Computershiki</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                {{> navBar}}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {{> loginButtons}}
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+    {{> Router}}
+</div>
+</body>
+
+<template name="navBar">
+    <li class="{{activeIfTemplateIs 'Top'}}"><a href="/">Top</a></li>
+    <li class="{{activeIfTemplateIs 'Badges'}}"><a href="/badges">My badges</a></li>
+    <li class="{{activeIfTemplateIs 'Profile'}}"><a href="/profile">My profile</a></li>
+</template>
+
+<template name="top">
+    <h1>Your computer history</h1>
+    <p>Showcase for all technologies you've worked with!</p>
+</template>
+
+<template name="profile">
+    <h1>My profile</h1>
+    <ul>
+        {{#each currentUser.emails}}
+            <li>
+                {{address}}
+                <span class="badge {{#if verified}}text-success{{else}}text-danger{{/if}}">
+                    <i class="fa {{#if verified}}fa-check{{else}}fa-close{{/if}}"></i>
+                </span>
+            </li>
+        {{/each}}
+    </ul>
+</template>
+
+<template name="badges">
+    <h1>My badges</h1>
+    {{> badges_list badges=badges}}
+    <p>
+        <a class="btn btn-large btn-primary" href="/add">
+            <i class="fa fa-plus"></i>
+            Add badge
+        </a>
+    </p>
+    <p>
+        Public link:
+        <a href="/users/{{currentUser._id}}">http://computershiki.ru/users/{{currentUser._id}}</a>
+    </p>
+</template>
+
+<template name="user_badges">
+    <h1>User badges</h1>
+    {{> badges_list badges=badges}}
+</template>
+
+<template name="add">
+    <h1>Add badge</h1>
+    <form>
+        <div class="form-group">
+            <label for="addName">Technology</label>
+            <input type="text" class="form-control" id="addName" placeholder="Enter technology name">
+        </div>
+        <button type="submit" class="btn btn-success">
+            <i class="fa fa-plus"></i>
+            Add
+        </button>
+    </form>
+    {{> badges_list badges=badges}}
+</template>
+
+<template name="badges_list">
+    <div class="row">
+        {{#each badges}}
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="alert alert-info" role="alert">
+                    {{title}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</template>
