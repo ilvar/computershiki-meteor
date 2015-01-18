@@ -46,22 +46,34 @@ if (Meteor.isClient) {
     Template.add.helpers({
         badges: function () {
             var name = Session.get('add_name') || '';
-            return Badges.find({name: {$regex: '^' + name, $options: "i"}});
+            return Badges.find({title: {$regex: '^' + name, $options: "i"}}, {limit: 50});
         }
     });
+
+    function insertBadge(title) {
+        var data = {
+            title: title,
+            userId: Meteor.userId()
+        };
+        if (Badges.find(data).count() == 0) {
+            Badges.insert(data);
+        }
+        Router.go('/badges')
+    }
 
     Template.add.events({
         'keyup input': function (e, template) {
             Session.set("add_name", e.target.value);
         },
+        'click a.select': function(e, template) {
+            e.preventDefault();
+            var title = e.target.dataset.title;
+            insertBadge(title);
+        },
         'click button': function (e, template) {
             e.preventDefault();
             var title = Session.get("add_name");
-            Badges.insert({
-                title: title,
-                userId: Meteor.userId()
-            });
-            Router.go('/badges')
+            insertBadge(title);
         }
     });
 }

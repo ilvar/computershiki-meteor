@@ -6,6 +6,7 @@
     <style>
         body { padding-top: 45px; }
         .modal { z-index: 2000; }
+        a.select { display: block; }
     </style>
 </head>
 
@@ -91,12 +92,20 @@
             <label for="addName">Technology</label>
             <input type="text" class="form-control" id="addName" placeholder="Enter technology name">
         </div>
+        <div class="row">
+            {{#each badges}}
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <a class="alert alert-info select" data-title="{{title}}">
+                        {{title}}
+                    </a>
+                </div>
+            {{/each}}
+        </div>
         <button type="submit" class="btn btn-success">
             <i class="fa fa-plus"></i>
             Add
         </button>
     </form>
-    {{> badges_list badges=badges}}
 </template>
 
 <template name="badges_list">
