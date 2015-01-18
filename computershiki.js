@@ -46,7 +46,11 @@ if (Meteor.isClient) {
     Template.add.helpers({
         badges: function () {
             var name = Session.get('add_name') || '';
-            return Badges.find({title: {$regex: '^' + name, $options: "i"}}, {limit: 50});
+            if (name) {
+                return Badges.find({title: {$regex: '^' + name, $options: "i"}}, {limit: 50, sort: {title: 1}});
+            } else {
+                return [];
+            }
         }
     });
 
