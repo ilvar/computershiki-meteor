@@ -62,7 +62,8 @@ if (Meteor.isClient) {
         if (Badges.find(data).count() == 0) {
             Badges.insert(data);
         }
-        Router.go('/badges')
+        Session.set("add_name", "");
+        Router.go('/badges');
     }
 
     Template.add.events({
