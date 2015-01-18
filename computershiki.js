@@ -75,7 +75,7 @@ if (Meteor.isClient) {
             var title = e.target.dataset.title;
             insertBadge(title);
         },
-        'click button': function (e, template) {
+        'submit form': function (e, template) {
             e.preventDefault();
             var title = Session.get("add_name");
             insertBadge(title);
