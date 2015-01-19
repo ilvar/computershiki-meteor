@@ -23,6 +23,40 @@ Router.route('/add', function () {
     }, 100);
 });
 
+AdminConfig = {
+    adminEmails: ['arcady.chumachenko@gmail.com'],
+    collections: {
+        Badges: {}
+    }
+};
+
+Schemas = {};
+
+Schemas.Badges = new SimpleSchema({
+    title: { type: String },
+    userId: {
+        type: String,
+        regEx: SimpleSchema.RegEx.Id,
+        autoValue: function() {
+            if (this.isInsert()) {
+                return Meteor.userId()
+            }
+        },
+        autoform: {
+            options: function() {
+                return _.map(Meteor.users.find().fetch(), function (user) {
+                    return {
+                        label: user.emails[0].address,
+                        value: user._id
+                    }
+                });
+            }
+        }
+    }
+});
+
+Badges.attachSchema(Schemas.Badges);
+
 if (Meteor.isClient) {
     Template.navBar.helpers({
         activeIfTemplateIs: function (template) {
@@ -73,7 +107,7 @@ if (Meteor.isClient) {
         'keyup input': function (e, template) {
             Session.set("add_name", e.target.value);
         },
-        'click a.select': function(e, template) {
+        'click a.select': function (e, template) {
             e.preventDefault();
             var title = e.target.dataset.title;
             insertBadge(title);
