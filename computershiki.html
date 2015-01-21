@@ -120,9 +120,15 @@
         {{#each badges}}
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="alert alert-info" role="alert">
-                    {{title}}
+                    <a href="/badges/{{_id}}">{{title}}</a>
                 </div>
             </div>
         {{/each}}
     </div>
 </template>
+
+<template name="badge_data">
+    <h1>{{badge.title}}</h1>
+    <p>{{{badge.wikipediaHtml}}}</p>
+</template>
+
