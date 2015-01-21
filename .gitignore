@@ -1,4 +1,6 @@
-.meteor/local
-.meteor/meteorite
+.meteor/local/
+.meteor/meteorite/
+
+packages/
 
 .idea

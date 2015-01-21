@@ -140,13 +140,13 @@ if (Meteor.isServer) {
           userId: this.userId
         };
         if (Badges.find(data).count() == 0) {
-          var options = {query: title, format: "json", summaryOnly: true};
-          var wikipedia = Npm.require('wikipedia-js');
-          wikipedia.searchArticle(options, Meteor.bindEnvironment(function (err, htmlWikiText) {
+          var options = {query: title, format: "html", summaryOnly: true};
+          var wikipedia = Meteor.npmRequire('wikipedia-js');
+          wikipedia.searchArticle(options, Meteor.bindEnvironment(function (err, wikiData) {
             if (err) {
               console.log(err);
             } else {
-              data.wikipediaHtml = htmlWikiText;
+              data.wikipediaHtml = wikiData;
             }
             Badges.insert(data);
           }));
